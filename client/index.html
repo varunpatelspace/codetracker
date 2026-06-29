@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Competitive Programming Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body { font-family: Inter, system-ui, sans-serif; }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div class="max-w-7xl mx-auto p-6">
+      <header class="flex justify-between items-center mb-8">
+        <div>
+          <p class="text-sm uppercase tracking-[0.25em] text-cyan-400">Competitive Programming Tracker</p>
+          <h1 class="text-3xl font-semibold">Welcome back, champion.</h1>
+        </div>
+        <button id="authBtn" class="px-4 py-2 rounded-xl bg-cyan-500 text-white">Login / Sign up</button>
+      </header>
+
+      <section class="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 mb-8">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+          <div class="text-sm text-cyan-400 mb-3">Live automation • MongoDB • GitHub sync</div>
+          <h2 class="text-2xl font-semibold mb-3">Track solved problems automatically and grow your coding streak.</h2>
+          <p class="text-slate-400 mb-6">The system collects submissions from CodeChef, Codeforces, and LeetCode, stores them in MongoDB, and can sync selected solutions to GitHub.</p>
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div class="bg-slate-800 rounded-xl p-4"><div class="text-sm text-slate-400">Total Solved</div><div id="totalSolved" class="text-2xl font-semibold">0</div></div>
+            <div class="bg-slate-800 rounded-xl p-4"><div class="text-sm text-slate-400">Streak</div><div id="streak" class="text-2xl font-semibold">0 days</div></div>
+            <div class="bg-slate-800 rounded-xl p-4"><div class="text-sm text-slate-400">Platforms</div><div class="text-2xl font-semibold">3</div></div>
+          </div>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-xl font-semibold mb-4">Authentication</h3>
+          <form id="authForm" class="space-y-3">
+            <input id="authName" class="w-full rounded-xl bg-slate-800 border border-slate-700 p-3" placeholder="Full name" />
+            <input id="authEmail" type="email" class="w-full rounded-xl bg-slate-800 border border-slate-700 p-3" placeholder="Email" required />
+            <input id="authPassword" type="password" class="w-full rounded-xl bg-slate-800 border border-slate-700 p-3" placeholder="Password" required />
+            <button class="w-full rounded-xl bg-cyan-500 p-3 font-medium">Register / Login</button>
+          </form>
+          <div id="authMessage" class="mt-3 text-sm text-slate-400"></div>
+        </div>
+      </section>
+
+      <section class="grid lg:grid-cols-2 gap-6 mb-8">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-xl font-semibold mb-4">Difficulty Breakdown</h3>
+          <canvas id="difficultyChart"></canvas>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-xl font-semibold mb-4">Recent Solved Problems</h3>
+          <div id="recentProblems" class="space-y-3"></div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module">
+      const authForm = document.getElementById('authForm');
+      const authMessage = document.getElementById('authMessage');
+      const totalSolved = document.getElementById('totalSolved');
+      const streak = document.getElementById('streak');
+      const recentProblems = document.getElementById('recentProblems');
+
+      const token = localStorage.getItem('cpToken');
+      if (token) {
+        loadDashboard();
+      }
+
+      authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('authName').value.trim();
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value;
+
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('cpToken', data.token);
+          authMessage.textContent = 'Account ready. Dashboard loaded.';
+          loadDashboard();
+        } else {
+          authMessage.textContent = data.message || 'Something went wrong';
+        }
+      });
+
+      async function loadDashboard() {
+        const res = await fetch('/api/dashboard', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('cpToken')}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          totalSolved.textContent = data.totalSolved || 0;
+          streak.textContent = `${data.streak || 0} days`;
+          renderRecent(data.recent || []);
+          renderChart(data.difficulties || {});
+        }
+      }
+
+      function renderRecent(items) {
+        recentProblems.innerHTML = items.length ? items.map(item => `
+          <div class="flex justify-between items-center bg-slate-800 rounded-xl p-3">
+            <div>
+              <div class="font-medium">${item.problemName}</div>
+              <div class="text-sm text-slate-400">${item.platform} • ${item.difficulty}</div>
+            </div>
+            <div class="text-sm text-cyan-400">${new Date(item.submissionTime).toLocaleDateString()}</div>
+          </div>
+        `).join('') : '<div class="text-slate-400">No solved problems yet.</div>';
+      }
+
+      function renderChart(difficulties) {
+        const ctx = document.getElementById('difficultyChart');
+        if (window.difficultyChartInstance) window.difficultyChartInstance.destroy();
+        window.difficultyChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(difficulties),
+            datasets: [{ data: Object.values(difficulties), backgroundColor: ['#38bdf8', '#f59e0b', '#ef4444', '#8b5cf6'] }]
+          },
+          options: { plugins: { legend: { labels: { color: '#cbd5e1' } } } }
+        });
+      }
+    </script>
+  </body>
+</html>
