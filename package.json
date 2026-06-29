@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node server/index.js",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "vercel-build": "echo Vercel deployment does not require a build step"
   },
   "dependencies": {
     "axios": "^1.7.4",
