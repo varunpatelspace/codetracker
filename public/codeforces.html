@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codeforces Dashboard • CodeTracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body { font-family: Inter, system-ui, sans-serif; background: #0f172a; color: #e2e8f0; }
+      .card { background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(148, 163, 184, 0.16); }
+      .accent { color: #5eead4; }
+      .platform-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(14, 116, 144, 0.15); border-radius: 999px; color: #7dd3fc; font-weight: 600; }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-950">
+    <div class="max-w-7xl mx-auto p-6">
+      <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+        <div>
+          <p class="text-sm uppercase tracking-[0.3em] text-cyan-300">CodeTracker • Codeforces</p>
+          <h1 class="text-4xl font-semibold text-slate-100 mt-3">Codeforces profile overview</h1>
+          <p class="mt-3 max-w-2xl text-slate-400">View contest performance, rating history, solved problems, and recent activity in one polished screen.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="/" class="inline-flex items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 px-5 py-3 text-sm font-medium text-slate-100 hover:border-cyan-300 hover:text-cyan-300">Back to home</a>
+          <a href="/next.html" class="inline-flex items-center justify-center rounded-2xl border border-slate-800 bg-cyan-500 px-5 py-3 text-sm font-medium text-slate-950 hover:bg-cyan-400">Next Page</a>
+        </div>
+      </header>
+
+      <section class="grid gap-6 xl:grid-cols-[0.9fr_0.55fr] mb-8">
+        <div class="space-y-6">
+          <div class="card rounded-[28px] p-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <div>
+                <div class="platform-badge"><span class="h-2 w-2 rounded-full bg-cyan-300"></span> Codeforces</div>
+                <div class="mt-6 flex flex-wrap gap-4">
+                  <div class="rounded-3xl bg-slate-900/90 p-5 shadow-[0_24px_80px_rgba(15,23,42,0.2)]">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Handle</p>
+                    <p class="mt-3 text-2xl font-semibold">varun_code</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-900/90 p-5">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Current rating</p>
+                    <p class="mt-3 text-2xl font-semibold text-cyan-300">2314</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-900/90 p-5">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Rank</p>
+                    <p class="mt-3 text-2xl font-semibold text-slate-100">Expert</p>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Solved</p>
+                  <p class="mt-2 text-3xl font-semibold text-cyan-300">712</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Contests</p>
+                  <p class="mt-2 text-3xl font-semibold text-slate-100">85</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Max rating</p>
+                  <p class="mt-2 text-3xl font-semibold text-cyan-300">2438</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Streak</p>
+                  <p class="mt-2 text-3xl font-semibold text-slate-100">6 days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-2">
+            <div class="card rounded-[28px] p-8">
+              <div class="flex items-center justify-between gap-4 mb-6">
+                <div>
+                  <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Rating history</p>
+                  <h2 class="mt-2 text-xl font-semibold text-slate-100">Last 12 contests</h2>
+                </div>
+                <span class="text-sm uppercase tracking-[0.2em] text-slate-400">+20 today</span>
+              </div>
+              <canvas id="ratingChart" class="mt-6"></canvas>
+            </div>
+            <div class="card rounded-[28px] p-8">
+              <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Recent problems</p>
+              <div class="mt-6 space-y-4">
+                <div class="rounded-3xl bg-slate-900/80 p-5">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm text-cyan-300">CF Round 891 E</p>
+                      <p class="mt-1 text-lg font-semibold">Permutation Guessing</p>
+                    </div>
+                    <span class="rounded-full bg-cyan-500/10 px-3 py-1 text-sm text-cyan-300">1900</span>
+                  </div>
+                </div>
+                <div class="rounded-3xl bg-slate-900/80 p-5">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm text-cyan-300">CF Round 890 B</p>
+                      <p class="mt-1 text-lg font-semibold">Tile Painting</p>
+                    </div>
+                    <span class="rounded-full bg-slate-700 px-3 py-1 text-sm text-slate-300">1600</span>
+                  </div>
+                </div>
+                <div class="rounded-3xl bg-slate-900/80 p-5">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm text-cyan-300">CF Round 889 A</p>
+                      <p class="mt-1 text-lg font-semibold">Binary Strings</p>
+                    </div>
+                    <span class="rounded-full bg-slate-700 px-3 py-1 text-sm text-slate-300">1300</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="space-y-6">
+          <div class="card rounded-[28px] p-8">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Top tags</p>
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                <span>dp</span><span class="text-cyan-300">112 solved</span>
+              </div>
+              <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                <span>graphs</span><span class="text-cyan-300">98 solved</span>
+              </div>
+              <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                <span>greedy</span><span class="text-cyan-300">84 solved</span>
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-[28px] p-8">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Activity</p>
+            <div class="mt-6 space-y-4">
+              <div class="rounded-3xl bg-slate-900/80 p-4">
+                <p class="text-sm text-slate-400">10 minutes ago</p>
+                <p class="mt-2 text-sm text-slate-100">Joined Codeforces Round 891 and solved 2 problems.</p>
+              </div>
+              <div class="rounded-3xl bg-slate-900/80 p-4">
+                <p class="text-sm text-slate-400">Yesterday</p>
+                <p class="mt-2 text-sm text-slate-100">Rated up to 2314 after contest performance.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </div>
+
+    <script>
+      const ctx = document.getElementById('ratingChart');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Round 880','881','882','883','884','885','886','887','888','889','890','891'],
+          datasets: [{
+            label: 'Rating',
+            data: [2140, 2178, 2190, 2203, 2245, 2261, 2280, 2295, 2310, 2322, 2308, 2314],
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.18)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 4,
+            pointBackgroundColor: '#38bdf8'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.12)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.12)' } }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

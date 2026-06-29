@@ -112,7 +112,7 @@ Once deployment is complete:
 
 ## Step 6: Update Frontend API Base
 
-The frontend in `client/index.html` needs to point to your deployed backend:
+The frontend in `public/index.html` needs to point to your deployed backend:
 
 Replace:
 ```javascript
@@ -126,7 +126,7 @@ const API_BASE = "https://codetracker-<username>.vercel.app";
 
 Then commit and push:
 ```bash
-git add client/index.html
+git add public/index.html
 git commit -m "Update API_BASE for production"
 git push
 ```

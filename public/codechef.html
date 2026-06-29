@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeChef Dashboard • CodeTracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body { font-family: Inter, system-ui, sans-serif; background: #0c111a; color: #f8fafc; }
+      .card { background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(248, 113, 113, 0.16); }
+      .accent { color: #fb7185; }
+      .platform-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(220, 38, 38, 0.14); border-radius: 999px; color: #f97316; font-weight: 600; }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-950">
+    <div class="max-w-7xl mx-auto p-6">
+      <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+        <div>
+          <p class="text-sm uppercase tracking-[0.3em] text-orange-300">CodeTracker • CodeChef</p>
+          <h1 class="text-4xl font-semibold text-slate-100 mt-3">CodeChef profile overview</h1>
+          <p class="mt-3 max-w-2xl text-slate-400">A clean analytics page for your CodeChef activities, solved problems, contest rating, and recent submission stats.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="/" class="inline-flex items-center justify-center rounded-2xl border border-slate-800 bg-slate-900 px-5 py-3 text-sm font-medium text-slate-100 hover:border-orange-300 hover:text-orange-300">Back to home</a>
+        </div>
+      </header>
+
+      <section class="grid gap-6 xl:grid-cols-[0.9fr_0.55fr] mb-8">
+        <div class="space-y-6">
+          <div class="card rounded-[28px] p-8">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <div>
+                <div class="platform-badge"><span class="h-2 w-2 rounded-full bg-orange-300"></span> CodeChef</div>
+                <div class="mt-6 flex flex-wrap gap-4">
+                  <div class="rounded-3xl bg-slate-900/90 p-5">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Handle</p>
+                    <p class="mt-3 text-2xl font-semibold">varunchef</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-900/90 p-5">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Current rating</p>
+                    <p class="mt-3 text-2xl font-semibold text-orange-300">1820</p>
+                  </div>
+                  <div class="rounded-3xl bg-slate-900/90 p-5">
+                    <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Highest rating</p>
+                    <p class="mt-3 text-2xl font-semibold text-slate-100">1906</p>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Solved</p>
+                  <p class="mt-2 text-3xl font-semibold text-orange-300">312</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Contests</p>
+                  <p class="mt-2 text-3xl font-semibold text-slate-100">42</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Problems rating</p>
+                  <p class="mt-2 text-3xl font-semibold text-orange-300">3.9</p>
+                </div>
+                <div class="rounded-3xl bg-slate-900/90 p-5 text-center">
+                  <p class="text-sm text-slate-400">Streak</p>
+                  <p class="mt-2 text-3xl font-semibold text-slate-100">4 days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-2">
+            <div class="card rounded-[28px] p-8">
+              <div class="flex items-center justify-between gap-4 mb-6">
+                <div>
+                  <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Recent submissions</p>
+                  <h2 class="mt-2 text-xl font-semibold text-slate-100">Last 5 problems</h2>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="rounded-3xl bg-slate-900/80 p-5">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm text-orange-300">Starters 54</p>
+                      <p class="mt-1 text-lg font-semibold">Chef and Strings</p>
+                    </div>
+                    <span class="rounded-full bg-orange-500/10 px-3 py-1 text-sm text-orange-300">1500</span>
+                  </div>
+                </div>
+                <div class="rounded-3xl bg-slate-900/80 p-5">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <p class="text-sm text-orange-300">LunchTime</p>
+                      <p class="mt-1 text-lg font-semibold">Magic Permutations</p>
+                    </div>
+                    <span class="rounded-full bg-slate-700 px-3 py-1 text-sm text-slate-300">1650</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card rounded-[28px] p-8">
+              <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Top tags</p>
+              <div class="mt-6 space-y-3">
+                <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                  <span>implementation</span><span class="text-orange-300">68 solved</span>
+                </div>
+                <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                  <span>math</span><span class="text-orange-300">42 solved</span>
+                </div>
+                <div class="flex items-center justify-between rounded-3xl bg-slate-900/90 p-4">
+                  <span>graphs</span><span class="text-orange-300">28 solved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="space-y-6">
+          <div class="card rounded-[28px] p-8">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Performance summary</p>
+            <div class="mt-6 space-y-4">
+              <div class="rounded-3xl bg-slate-900/80 p-4">
+                <p class="text-sm text-slate-400">Last contest</p>
+                <p class="mt-2 text-sm text-slate-100">Rated up by 32 points after solving 3 problems.</p>
+              </div>
+              <div class="rounded-3xl bg-slate-900/80 p-4">
+                <p class="text-sm text-slate-400">Monthly goal</p>
+                <p class="mt-2 text-sm text-slate-100">Solve 15 rated problems this month.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card rounded-[28px] p-8">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Action items</p>
+            <div class="mt-6 space-y-3">
+              <div class="rounded-3xl bg-slate-900/80 p-4">Review the last practice contest.</div>
+              <div class="rounded-3xl bg-slate-900/80 p-4">Add new solutions to GitHub repo.</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </div>
+  </body>
+</html>
